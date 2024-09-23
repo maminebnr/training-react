@@ -4,16 +4,19 @@ import NumberList from'./components/NumberList'
 import React,{useRef,useState} from 'react'
 function App() {
  
+  const titleImpl = useRef()
+  const yearImp = useRef()
 
-const[titleImp,setTitleImp]=useState("")
-const[yearImp,setYearImp]=useState("")
-
-  const [data,setData]= useState(null)
+  const [data,setData]=useState(null)
 
 
    const handleSubmit = (e) =>{
     e.preventDefault();
-    setData({yearImp,titleImp})
+    const title = titleImpl.current.value;
+    const year = yearImp.current.value
+    setData({titleImpl:title,yearImp:year})
+    titleImpl.current.value = ""
+    yearImp.current.value =""
    
 
    
@@ -26,20 +29,20 @@ const[yearImp,setYearImp]=useState("")
   <div>
    <form onSubmit={handleSubmit}>
       <div><label>Title : </label>
-      <input type="text" name="title" required id="title" value={titleImp} onChange={e=>setTitleImp(e.target.value)}  />
+      <input type="text" name="title" required id="title" ref={titleImpl}    />
       </div>
       <div>
       <label>year : </label>
-      <input type="number" name="title" required id="title" value={yearImp} onChange={e=>setYearImp(e.target.value)} />
+      <input type="number" name="title" required id="title" ref={yearImp}  />
       </div>
      <button type="submit">click me </button>
     </form>
-  {(titleImp.length === 0 && yearImp.length === 0)?<h3>no data ...</h3>:<div>
-      {titleImp}<br />
-      {yearImp}
-    </div>}
- 
- 
+  {!data?<h3>No Data Found ...</h3>:
+  <div>
+      <h3>{data.titleImpl}</h3>
+      <h3>{data.yearImp}</h3>  
+  </div>}
+  
  </div>  
   
   );
